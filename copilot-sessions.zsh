@@ -29,7 +29,7 @@ copilot-sessions-small() {
     --preview 'd='"$_COPILOT_SESSION_DIR"'/{1}
       cat "$d/workspace.yaml" 2>/dev/null
       echo "---"
-      cat "$d/plan.md" 2>/dev/null') || return 0
+      bat --style=plain --color=always -l md "$d/plan.md" 2>/dev/null || cat "$d/plan.md" 2>/dev/null') || return 0
   copilot --resume="${id%% |*}" "$@"
 }
 
@@ -53,7 +53,7 @@ copilot-sessions-medium() {
       if [ -f "$d/plan.md" ]; then
         echo ""
         printf "\033[1;34m📝 Plan\033[0m\n"
-        sed "s/^/   /" "$d/plan.md" 2>/dev/null
+        bat --style=plain --color=always -l md "$d/plan.md" 2>/dev/null | sed "s/^/   /" || sed "s/^/   /" "$d/plan.md" 2>/dev/null
       fi') || return 0
   copilot --resume="${id%% |*}" "$@"
 }
@@ -109,7 +109,7 @@ copilot-sessions-large() {
       if [ -f "$d/plan.md" ]; then
         echo ""
         printf "\033[1;34m📝 Plan\033[0m\n"
-        sed "s/^/   /" "$d/plan.md" 2>/dev/null
+        bat --style=plain --color=always -l md "$d/plan.md" 2>/dev/null | sed "s/^/   /" || sed "s/^/   /" "$d/plan.md" 2>/dev/null
       fi') || return 0
 
   local session_id="${id%% |*}"
