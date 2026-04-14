@@ -5,43 +5,27 @@ Interactive fzf-based session picker for [GitHub Copilot CLI](https://gh.io/copi
 ## Prerequisites
 
 - [fzf](https://github.com/junegunn/fzf) — `brew install fzf`
+- [bat](https://github.com/sharkdp/bat) — `brew install bat` (optional, for markdown highlighting in preview)
 - [GitHub Copilot CLI](https://gh.io/copilot-cli)
 
 ## Setup
 
-Add to your `.zshrc`:
-
-```zsh
-source /path/to/copilot-sessions.zsh
-```
+Copy the `copilot-sessions` function from `copilot-sessions.zsh` into your `~/.zshrc`.
 
 ## Usage
 
-Three variants at different complexity levels:
-
-| Function | Lines | Features |
-|----------|-------|----------|
-| `copilot-sessions-small` | ~10 | UUID + summary + cwd, raw preview |
-| `copilot-sessions-medium` | ~25 | + branch, preview headers, last-modified date |
-| `copilot-sessions-large` | ~50 | + colors, `--help`, `--dry-run`, fzf check, session age |
-
 ```bash
-# Basic usage
-copilot-sessions-medium
+# Open the session picker
+copilot-sessions
 
 # Pass flags through to copilot
-copilot-sessions-medium --allow-all-tools
-
-# Large: preview command without running
-copilot-sessions-large --dry-run
-
-# Large: help
-copilot-sessions-large --help
+copilot-sessions --allow-all-tools
 ```
 
 ## What it does
 
 1. Scans `~/.copilot/session-state/` for session directories
 2. Sorts by most recently modified
-3. Opens fzf with a preview pane showing `workspace.yaml` and `plan.md`
-4. On selection, runs `copilot --resume=<session-id>` with any extra flags
+3. Opens fzf with a coloured list showing date, project name, and plan title
+4. Preview pane shows workspace metadata and syntax-highlighted plan
+5. On selection, runs `copilot --resume=<session-id>` with any extra flags
