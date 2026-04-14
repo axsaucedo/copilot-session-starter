@@ -12,7 +12,7 @@ copilot-sessions-small() {
     local summary=$(grep '^summary:' "$d/workspace.yaml" 2>/dev/null | head -1 | sed 's/^summary: //')
     local cwd=$(grep '^cwd:' "$d/workspace.yaml" 2>/dev/null | sed 's/^cwd: //')
     echo "$uuid | ${summary:--} | ${cwd:--}"
-  done | fzf --preview 'cat "'"$_COPILOT_SESSION_DIR"'/{1}/workspace.yaml" 2>/dev/null; echo; echo "---"; cat "'"$_COPILOT_SESSION_DIR"'/{1}/plan.md" 2>/dev/null' \
+  done | fzf --preview 'd='"$_COPILOT_SESSION_DIR"'/{1}; cat "$d/workspace.yaml" 2>/dev/null; echo; echo "---"; cat "$d/plan.md" 2>/dev/null' \
     --delimiter ' \| ' --with-nth=1.. --preview-window=right:50%:wrap) || return 0
   copilot --resume="${id%% |*}" "$@"
 }
@@ -28,8 +28,7 @@ copilot-sessions-medium() {
     echo "$uuid | ${summary:--} | ${branch:--} | ${cwd:--}"
   done | fzf --header "Enter: resume session | Esc: cancel" \
     --delimiter ' \| ' --with-nth=1.. --preview-window=right:55%:wrap \
-    --preview '
-      d="'"$_COPILOT_SESSION_DIR"'/{1}"
+    --preview 'd='"$_COPILOT_SESSION_DIR"'/{1}
       echo "📅 Last Modified"
       stat -f "   %Sm" -t "%Y-%m-%d %H:%M" "$d/workspace.yaml" 2>/dev/null
       echo ""
@@ -82,8 +81,7 @@ copilot-sessions-large() {
       "$uuid" "${summary:--}" "${branch:--}" "${cwd:--}" "${updated:--}"
   done | fzf --ansi --header "Enter: resume | Esc: cancel | Type to search" \
     --delimiter ' \| ' --with-nth=1.. --preview-window=right:55%:wrap \
-    --preview '
-      d="'"$_COPILOT_SESSION_DIR"'/{1}"
+    --preview 'd='"$_COPILOT_SESSION_DIR"'/{1}
       echo "📅 Last Modified"
       mod=$(stat -f "%Sm" -t "%Y-%m-%d %H:%M:%S" "$d/workspace.yaml" 2>/dev/null)
       echo "   $mod"
