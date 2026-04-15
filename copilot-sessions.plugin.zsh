@@ -1,6 +1,5 @@
-# Copilot Session Picker — paste into your .zshrc
-# Usage: copilot-sessions [copilot flags...]
-# Example: copilot-sessions --allow-all-tools
+# Copilot Session Picker — interactive fzf session browser for GitHub Copilot CLI
+# https://github.com/axsaucedo/copilot-session-starter
 
 copilot-sessions() {
   local sdir="${HOME}/.copilot/session-state"
